@@ -39,3 +39,14 @@ The backend is located in the `server` directory and is responsible for managing
    ```bash
    npm install
 
+#### How to Run
+
+1. In the server directory, run 
+  ```bash
+  node server.js
+
+2. In the frontend directory, run
+  ```bash
+  npx serve .
+
+3. Now write the python command in the terminal
