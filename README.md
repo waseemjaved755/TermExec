@@ -1,6 +1,7 @@
 # TermExec
 
 ![Demo of TermExec](terminal2.gif)
+![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
 
 ## Introduction
 **TermExec** is a lightweight and secure web-based terminal application that allows users to execute Python code in real time. Built with a frontend powered by **Xterm.js** and a backend using **WebSocket** and **Docker**, TermExec provides an isolated and dynamic environment for code execution.
@@ -50,5 +51,3 @@ The backend is located in the `server` directory and is responsible for managing
   npx serve .
 
 3. Now write the python command in the terminal
-
-![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
