@@ -50,3 +50,5 @@ The backend is located in the `server` directory and is responsible for managing
   npx serve .
 
 3. Now write the python command in the terminal
+
+![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)
