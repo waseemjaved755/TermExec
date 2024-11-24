@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Python Terminal</title>
+    <link rel="stylesheet" href="node_modules/@xterm/xterm/css/xterm.css" />
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #222;
+        color: #fff;
+        margin: 0;
+        overflow: hidden;
+      }
+      #terminal {
+        width: 80%;
+        height: 80%;
+        background-color: #000;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="terminal"></div>
+    <script src="node_modules/@xterm/xterm/lib/xterm.js"></script>
+    <script>
+      
+      const term = new Terminal({
+        cols: 80,
+        rows: 24,
+        theme: {
+          background: '#000000',
+          foreground: '#ffffff',
+        },
+      });
+      term.open(document.getElementById('terminal'));
+      term.write('--------Connected to Python Terminal---------\r\n ');
+
+      const ws = new WebSocket('ws://0.0.0.0:8082');
+
+      
+      ws.onopen = () => {
+        term.write('\r\n\r\n$ ');
+      };
+
+      ws.onerror = (error) => {
+        term.write(`\r\nWebSocket Error: ${error.message}\r\n`);
+      };
+
+      ws.onclose = () => {
+        term.write('\r\nWebSocket connection closed\r\n');
+      };
+
+      ws.onmessage = (event) => {
+        term.write(`\r\n${event.data}\r\n$ `);
+      };
+
+      
+      let commandBuffer = '';
+
+      
+      term.onData((data) => {
+        if (data === '\r') {
+          
+          ws.send(JSON.stringify({ code: commandBuffer }));
+          commandBuffer = '';
+        } else if (data === '\u007f') {
+          if (commandBuffer.length > 0) {
+            commandBuffer = commandBuffer.slice(0, -1);
+            term.write('\b \b');
+          }
+        } else {
+          commandBuffer += data;
+          term.write(data);
+        }
+      });
+    </script>
+  </body>
+</html>
